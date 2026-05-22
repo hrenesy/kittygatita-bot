@@ -74,6 +74,10 @@ def schedule_next_cat():
     schedule.clear()
     schedule.every(int(delay)).seconds.do(send_and_reschedule)
 
+def send_and_reschedule():
+    asyncio.run(send_cat())
+    schedule_next_cat()
+
 schedule_next_cat()
 
 print("Cat bot started")
