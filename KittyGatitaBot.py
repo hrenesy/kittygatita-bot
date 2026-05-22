@@ -7,8 +7,8 @@ from datetime import datetime, timedelta
 
 from telegram import Bot
 
-TOKEN = "8668406663:AAG5tpUIGPKI1TYNlzN0q6WZFbLqZFZMnFM"
-CHAT_ID = "186318437"
+TOKEN = os.getenv("TOKEN")
+CHAT_ID = os.getenv("CHAT_ID")
 
 bot = Bot(token=TOKEN)
 
@@ -42,36 +42,37 @@ async def send_cat():
         caption=random.choice(captions)
     )
 def schedule_next_cat():
+    schedule.clear()
+
     now = datetime.now()
 
     start_hour = 9
     end_hour = 17
 
-    current_hour = now.hour
-
-    if current_hour >= end_hour:
+    if now.hour >= end_hour:
         print("Кошки спят до завтра")
         return
 
-    if current_hour < start_hour:
+    if now.hour < start_hour:
         next_time = now.replace(
             hour=start_hour,
             minute=random.randint(0, 59),
-            second=0
+            second=0,
+            microsecond=0
         )
     else:
-        minutes = random.randint(5, 60)
-        next_time = now + timedelta(minutes=minutes)
+        next_time = now + timedelta(
+            minutes=random.randint(5, 60)
+        )
 
         if next_time.hour >= end_hour:
             print("Рабочий день котов окончен")
             return
 
-    delay = (next_time - now).total_seconds()
+    delay = int((next_time - now).total_seconds())
 
     print(f"Следующий кот в {next_time.strftime('%H:%M')}")
 
-    schedule.clear()
     schedule.every(int(delay)).seconds.do(send_and_reschedule)
 
 def send_and_reschedule():
