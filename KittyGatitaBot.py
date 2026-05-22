@@ -72,7 +72,9 @@ def schedule_next_cat():
     print(f"Следующий кот в {next_time.strftime('%H:%M')}")
 
     schedule.clear()
-    schedule.every(delay).seconds.do(send_and_reschedule)
+    schedule.every(int(delay)).seconds.do(send_and_reschedule)
+
+schedule_next_cat()
 
 print("Cat bot started")
 
