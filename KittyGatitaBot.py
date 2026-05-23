@@ -45,10 +45,10 @@ async def send_cat():
 def schedule_next_cat():
     schedule.clear()
 
-    now = datetime.now()
+    now = datetime.now() + timedelta(hours=1)
 
     start_hour = 9
-    end_hour = 17
+    end_hour = 22
 
     if now.hour >= end_hour:
         print("Кошки спят до завтра")
@@ -63,7 +63,7 @@ def schedule_next_cat():
         )
     else:
         next_time = now + timedelta(
-            minutes=random.randint(5, 60)
+            minutes=random.randint(5, 20)
         )
 
         if next_time.hour >= end_hour:
@@ -74,7 +74,7 @@ def schedule_next_cat():
 
     print(f"Следующий кот в {next_time.strftime('%H:%M')}")
 
-    schedule.every(int(delay)).seconds.do(send_and_reschedule)
+    schedule.every(delay).seconds.do(send_and_reschedule)
 
 def send_and_reschedule():
     asyncio.run(send_cat())
