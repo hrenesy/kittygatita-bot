@@ -21,7 +21,7 @@ def get_cat_gif():
     data = response.json()
     return data[0]["url"]
 
-async def send_cat():
+def send_cat():
     captions = [
         "кот прибыл",
         "срочная поставка кота",
@@ -29,15 +29,11 @@ async def send_cat():
         "уровень стресса снижен на 3%",
         "кот одобряет это сообщение",
         "внимание: обнаружен кот",
-        "кошачья поддержка активирована",
-        "кот пришел проверить кукуху",
-        "сервер котов отвечает нормально",
-        "это обязательный кот по расписанию",
     ]
 
     gif = get_cat_gif()
 
-    await bot.send_animation(
+    bot.send_animation(
         chat_id=CHAT_ID,
         animation=gif,
         caption=random.choice(captions)
@@ -63,7 +59,7 @@ def schedule_next_cat():
         )
     else:
         next_time = now + timedelta(
-            minutes=random.randint(5, 20)
+            minutes=random.randint(10, 40)
         )
 
         if next_time.hour >= end_hour:
@@ -77,12 +73,12 @@ def schedule_next_cat():
     schedule.every(delay).seconds.do(send_and_reschedule)
 
 def send_and_reschedule():
-    asyncio.run(send_cat())
+    try:
+        send_cat()
+    except Exception as e:
+        print(e)
+
     schedule_next_cat()
-
-schedule_next_cat()
-
-print("Cat bot started")
 
 while True:
     schedule.run_pending()
