@@ -6,12 +6,10 @@ import requests
 import asyncio
 from datetime import datetime, timedelta
 
-from telegram import Bot
 
 TOKEN = os.getenv("TOKEN")
 CHAT_ID = os.getenv("CHAT_ID")
 
-bot = Bot(token=TOKEN)
 
 def get_cat_gif():
     response = requests.get(
@@ -33,11 +31,17 @@ def send_cat():
 
     gif = get_cat_gif()
 
-    bot.send_animation(
-        chat_id=CHAT_ID,
-        animation=gif,
-        caption=random.choice(captions)
-    )
+    url = f"https://api.telegram.org/bot{TOKEN}/sendAnimation"
+
+    data = {
+        "chat_id": CHAT_ID,
+        "animation": gif,
+        "caption": random.choice(captions)
+    }
+
+    response = requests.post(url, data=data)
+
+    print(response.text)
 def schedule_next_cat():
     schedule.clear()
 
