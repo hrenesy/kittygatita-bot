@@ -84,6 +84,8 @@ def send_and_reschedule():
 
 print("Cat bot started")
 
+schedule_next_cat()
+
 while True:
     schedule.run_pending()
     time.sleep(1)
