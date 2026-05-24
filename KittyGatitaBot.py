@@ -3,13 +3,11 @@ import random
 import time
 import schedule
 import requests
-import asyncio
 from datetime import datetime, timedelta
 
 
 TOKEN = os.getenv("TOKEN")
 CHAT_ID = os.getenv("CHAT_ID")
-
 
 def get_cat_gif():
     response = requests.get(
@@ -83,6 +81,8 @@ def send_and_reschedule():
         print(e)
 
     schedule_next_cat()
+
+print("Cat bot started")
 
 while True:
     schedule.run_pending()
