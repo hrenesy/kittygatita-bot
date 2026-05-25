@@ -45,15 +45,15 @@ def schedule_next_cat():
 
     now = datetime.now() + timedelta(hours=1)
 
-    start_hour = 9
-    end_hour = 22
+    start_hour = 8
+    end_hour = 20
 
     if now.hour >= end_hour:
-    next_time = (now + timedelta(days=1)).replace(
-        hour=start_hour,
-        minute=random.randint(0, 59),
-        second=0,
-        microsecond=0
+        next_time = (now + timedelta(days=1)).replace(
+            hour=start_hour,
+            minute=random.randint(0, 59),
+            second=0,
+            microsecond=0
     )
 
     delay = int((next_time - now).total_seconds())
