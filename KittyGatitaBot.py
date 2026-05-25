@@ -45,8 +45,8 @@ def schedule_next_cat():
 
     now = datetime.now() + timedelta(hours=1)
 
-    start_hour = 8
-    end_hour = 20
+    start_hour = 9
+    end_hour = 22
 
     if now.hour >= end_hour:
         next_time = (now + timedelta(days=1)).replace(
@@ -54,34 +54,32 @@ def schedule_next_cat():
             minute=random.randint(0, 59),
             second=0,
             microsecond=0
-    )
+        )
 
-    delay = int((next_time - now).total_seconds())
-
-    print(f"Кошки вернутся в {next_time.strftime('%H:%M')}")
-
-    schedule.every(delay).seconds.do(send_and_reschedule)
-    return
-
-    if now.hour < start_hour:
+    elif now.hour < start_hour:
         next_time = now.replace(
             hour=start_hour,
             minute=random.randint(0, 59),
             second=0,
             microsecond=0
         )
+
     else:
         next_time = now + timedelta(
             minutes=random.randint(10, 40)
         )
 
         if next_time.hour >= end_hour:
-            print("Рабочий день котов окончен")
-            return
+            next_time = (now + timedelta(days=1)).replace(
+                hour=start_hour,
+                minute=random.randint(0, 59),
+                second=0,
+                microsecond=0
+            )
 
     delay = int((next_time - now).total_seconds())
 
-    print(f"Следующий кот в {next_time.strftime('%H:%M')}")
+    print(f"Следующий кот в {next_time.strftime('%Y-%m-%d %H:%M')}")
 
     schedule.every(delay).seconds.do(send_and_reschedule)
 
