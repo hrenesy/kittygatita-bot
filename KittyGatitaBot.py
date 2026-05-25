@@ -49,8 +49,19 @@ def schedule_next_cat():
     end_hour = 22
 
     if now.hour >= end_hour:
-        print("Кошки спят до завтра")
-        return
+    next_time = (now + timedelta(days=1)).replace(
+        hour=start_hour,
+        minute=random.randint(0, 59),
+        second=0,
+        microsecond=0
+    )
+
+    delay = int((next_time - now).total_seconds())
+
+    print(f"Кошки вернутся в {next_time.strftime('%H:%M')}")
+
+    schedule.every(delay).seconds.do(send_and_reschedule)
+    return
 
     if now.hour < start_hour:
         next_time = now.replace(
