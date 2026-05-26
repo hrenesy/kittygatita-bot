@@ -46,7 +46,7 @@ def schedule_next_cat():
     now = datetime.now() + timedelta(hours=1)
 
     start_hour = 9
-    end_hour = 22
+    end_hour = 20
 
     if now.hour >= end_hour:
         next_time = (now + timedelta(days=1)).replace(
@@ -66,7 +66,7 @@ def schedule_next_cat():
 
     else:
         next_time = now + timedelta(
-            minutes=random.randint(10, 40)
+            minutes=random.randint(20, 50)
         )
 
         if next_time.hour >= end_hour:
