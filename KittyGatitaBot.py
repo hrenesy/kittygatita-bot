@@ -18,14 +18,6 @@ def get_cat_gif():
     return data[0]["url"]
 
 def send_cat():
-    captions = [
-        "кот прибыл",
-        "срочная поставка кота",
-        "кот инспектирует твою жизнь",
-        "уровень стресса снижен на 3%",
-        "кот одобряет это сообщение",
-        "внимание: обнаружен кот",
-    ]
 
     gif = get_cat_gif()
 
@@ -33,8 +25,7 @@ def send_cat():
 
     data = {
         "chat_id": CHAT_ID,
-        "animation": gif,
-        "caption": random.choice(captions)
+        "animation": gif
     }
 
     response = requests.post(url, data=data)
@@ -66,7 +57,7 @@ def schedule_next_cat():
 
     else:
         next_time = now + timedelta(
-            minutes=random.randint(10, 40)
+            minutes=random.randint(40, 80)
         )
 
         if next_time.hour >= end_hour:
